@@ -19,6 +19,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Build Project with Maven
+        run: mvn clean package
+
       - name: Extract Git commit short hash
         id: get_version
         run: echo "VERSION=$(git log -1 --pretty=format:%h)-SNAPSHOT" >> $GITHUB_ENV
