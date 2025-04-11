@@ -18,7 +18,6 @@ public class VMInfoController {
 		try {
 			hostname = InetAddress.getLocalHost().getHostName();
 		} catch (Exception e) {
-			// Handle error
 		}
 
 		model.addAttribute("hostname", hostname);
