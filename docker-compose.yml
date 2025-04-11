@@ -1,0 +1,14 @@
+version: '1.0'
+services:
+   vm-inspector:
+      build:
+         context: .
+         dockerfile: Dockerfile
+         args:
+            JAR_FILE: vm-inspector.jar
+      image: 1602047/vm-inspector:${VERSION} # username/repo:tag
+      ports:
+         - 8080:8080
+         - 8099:8010
+      volumes:
+         - /etc/hostname:/vm_hostname

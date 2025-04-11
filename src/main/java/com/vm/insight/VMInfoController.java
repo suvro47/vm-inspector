@@ -1,6 +1,8 @@
 package com.vm.insight;
 
 import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,21 @@ public class VMInfoController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		String hostname = "unknown";
+
+		String containerHostname = "unknown";
 		try {
-			hostname = InetAddress.getLocalHost().getHostName();
+			containerHostname = InetAddress.getLocalHost().getHostName();
+		} catch (Exception ignored) {
+		}
+
+		String vmHostname = "unknown";
+		try {
+			vmHostname = Files.readString(Path.of("/vm_hostname")).trim();
 		} catch (Exception e) {
 		}
 
-		model.addAttribute("hostname", hostname);
+		model.addAttribute("containerHostname", containerHostname);
+		model.addAttribute("vmHostname", vmHostname);
 		model.addAttribute("commitHash", commitHash);
 		return "index";
 	}

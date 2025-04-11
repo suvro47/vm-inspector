@@ -13,9 +13,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #333;
-        }
         .info {
             margin-top: 1rem;
             font-size: 1.2rem;
@@ -23,10 +20,9 @@
 	</style>
 </head>
 <body>
-
-<h1>VM Deployment Info</h1>
 <div class="info">
-	<p><strong>Hostname:</strong> <span th:text="${hostname}">loading...</span></p>
+	<p><strong>Container Hostname:</strong> <span th:text="${containerHostname}">loading...</span></p>
+	<p><strong>VM Hostname:</strong> <span th:text="${vmHostname}">loading...</span></p>
 	<p><strong>Commit Hash:</strong> <span th:text="${commitHash}">loading...</span></p>
 </div>
 </body>
