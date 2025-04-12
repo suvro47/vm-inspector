@@ -40,10 +40,8 @@ jobs:
     steps:
       - name: Pull and run latest image on VM1
         run: |
-          docker stop vm-inspector || true
-          docker rm vm-inspector || true
           docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
 
   deploy-vm2:
     needs: build
@@ -51,10 +49,8 @@ jobs:
     steps:
       - name: Pull and run latest image on VM2
         run: |
-          docker stop vm-inspector || true
-          docker rm vm-inspector || true
           docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
 
   deploy-vm3:
     needs: build
@@ -62,7 +58,5 @@ jobs:
     steps:
       - name: Pull and run latest image on VM3
         run: |
-          docker stop vm-inspector || true
-          docker rm vm-inspector || true
           docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
