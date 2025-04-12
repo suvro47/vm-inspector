@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Push, and Deploy Docker Image
 
 on:
   push:
@@ -33,3 +33,36 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: docker push 1602047/vm-inspector:${{ env.VERSION }}
+
+  deploy-vm1:
+    needs: build
+    runs-on: [self-hosted, vm1]
+    steps:
+      - name: Pull and run latest image on VM1
+        run: |
+          docker stop vm-inspector || true
+          docker rm vm-inspector || true
+          docker pull 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+
+  deploy-vm2:
+    needs: build
+    runs-on: [self-hosted, vm2]
+    steps:
+      - name: Pull and run latest image on VM2
+        run: |
+          docker stop vm-inspector || true
+          docker rm vm-inspector || true
+          docker pull 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+
+  deploy-vm3:
+    needs: build
+    runs-on: [self-hosted, vm3]
+    steps:
+      - name: Pull and run latest image on VM3
+        run: |
+          docker stop vm-inspector || true
+          docker rm vm-inspector || true
+          docker pull 1602047/vm-inspector:${{ env.VERSION }}
+          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
