@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      image_version: ${{ steps.set-version.outputs.version }}
 
     steps:
       - name: Checkout repository
@@ -22,8 +24,11 @@ jobs:
       - name: Build Project with Maven
         run: mvn clean package
 
-      - name: Extract Git commit short hash
-        run: echo "VERSION=$(git log -1 --pretty=format:%h)-SNAPSHOT" >> $GITHUB_ENV
+      - name: Extract Git commit short hash and set output
+        run: |
+          VERSION=$(git log -1 --pretty=format:%h)-SNAPSHOT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "::set-output name=version::$VERSION"
 
       - name: Create .env file for docker-compose
         run: echo "VERSION=${{ env.VERSION }}" > .env
@@ -40,8 +45,9 @@ jobs:
     steps:
       - name: Pull and run latest image on VM1
         run: |
-          docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          VERSION=${{ needs.build.outputs.image_version }}
+          docker pull 1602047/vm-inspector:$VERSION
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:$VERSION
 
   deploy-vm2:
     needs: build
@@ -49,8 +55,9 @@ jobs:
     steps:
       - name: Pull and run latest image on VM2
         run: |
-          docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          VERSION=${{ needs.build.outputs.image_version }}
+          docker pull 1602047/vm-inspector:$VERSION
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:$VERSION
 
   deploy-vm3:
     needs: build
@@ -58,5 +65,6 @@ jobs:
     steps:
       - name: Pull and run latest image on VM3
         run: |
-          docker pull 1602047/vm-inspector:${{ env.VERSION }}
-          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:${{ env.VERSION }}
+          VERSION=${{ needs.build.outputs.image_version }}
+          docker pull 1602047/vm-inspector:$VERSION
+          docker run -d -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:$VERSION
