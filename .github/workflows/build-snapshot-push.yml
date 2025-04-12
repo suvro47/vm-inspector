@@ -36,7 +36,7 @@ jobs:
 
   deploy-vm1:
     needs: build
-    runs-on: [self-hosted, vm1]
+    runs-on: [self-hosted,vm1]
     steps:
       - name: Pull and run latest image on VM1
         run: |
@@ -47,7 +47,7 @@ jobs:
 
   deploy-vm2:
     needs: build
-    runs-on: [self-hosted, vm2]
+    runs-on: [self-hosted,vm2]
     steps:
       - name: Pull and run latest image on VM2
         run: |
@@ -58,7 +58,7 @@ jobs:
 
   deploy-vm3:
     needs: build
-    runs-on: [self-hosted, vm3]
+    runs-on: [self-hosted,vm3]
     steps:
       - name: Pull and run latest image on VM3
         run: |
