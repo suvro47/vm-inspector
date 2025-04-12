@@ -25,10 +25,11 @@ jobs:
         run: mvn clean package
 
       - name: Extract Git commit short hash and set output
+        id: set-version
         run: |
           VERSION=$(git log -1 --pretty=format:%h)-SNAPSHOT
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create .env file for docker-compose
         run: echo "VERSION=${{ env.VERSION }}" > .env
