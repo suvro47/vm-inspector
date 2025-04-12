@@ -6,9 +6,11 @@ services:
          dockerfile: Dockerfile
          args:
             JAR_FILE: vm-inspector.jar
-      image: 1602047/vm-inspector:${VERSION} # username/repo:tag
+      image: 1602047/vm-inspector:${VERSION:-latest} # username/repo:tag
       ports:
          - 8080:8080
          - 8099:8010
       volumes:
-         - /etc/hostname:/vm_hostname
+      -  type: bind
+         source: /etc/hostname
+         target: /vm_hostname
