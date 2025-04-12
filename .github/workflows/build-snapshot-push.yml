@@ -23,13 +23,13 @@ jobs:
         run: mvn clean package
 
       - name: Extract Git commit short hash
-        id: get_version
         run: echo "VERSION=$(git log -1 --pretty=format:%h)-SNAPSHOT" >> $GITHUB_ENV
 
-      - name: Build Docker image
-        run: |
-          docker build -t 1602047/vm-inspector:${{ env.VERSION }} .
+      - name: Create .env file for docker-compose
+        run: echo "VERSION=${{ env.VERSION }}" > .env
+
+      - name: Build Docker image using docker-compose
+        run: docker compose build --build-arg JAR_FILE=vm-inspector.jar
 
       - name: Push Docker image to Docker Hub
-        run: |
-          docker push 1602047/vm-inspector:${{ env.VERSION }}
+        run: docker push 1602047/vm-inspector:${{ env.VERSION }}
