@@ -40,14 +40,43 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push 1602047/vm-inspector:${{ env.VERSION }}
 
-  deploy:
+  deploy-vm1:
     needs: build
-    runs-on: [self-hosted, vm1, vm2, vm3]
-    strategy:
-      matrix:
-        vm: [vm1, vm2, vm3]
+    runs-on: [self-hosted,vm1]
     steps:
-      - name: Pull and run latest image on ${{ matrix.vm }}
+      - name: Pull and run latest image on VM1
+        run: |
+          VERSION=${{ needs.build.outputs.image_version }}
+          
+          # Stop and remove existing container if running
+          docker stop vm-inspector || true
+          docker rm vm-inspector || true
+          
+          # Pull and run the new container
+          docker pull 1602047/vm-inspector:$VERSION
+          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:$VERSION
+
+  deploy-vm2:
+    needs: build
+    runs-on: [self-hosted,vm2]
+    steps:
+      - name: Pull and run latest image on VM2
+        run: |
+          VERSION=${{ needs.build.outputs.image_version }}
+          
+          # Stop and remove existing container if running
+          docker stop vm-inspector || true
+          docker rm vm-inspector || true
+          
+          # Pull and run the new container
+          docker pull 1602047/vm-inspector:$VERSION
+          docker run -d --name vm-inspector -p 8080:8080 -p 8099:8010 -v /etc/hostname:/vm_hostname 1602047/vm-inspector:$VERSION
+
+  deploy-vm3:
+    needs: build
+    runs-on: [self-hosted,vm3]
+    steps:
+      - name: Pull and run latest image on VM3
         run: |
           VERSION=${{ needs.build.outputs.image_version }}
           
