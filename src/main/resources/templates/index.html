@@ -1,28 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>VM Info</title>
+	<title>VM Information</title>
 	<meta charset="UTF-8">
 	<style>
-        body {
-            font-family: sans-serif;
-            max-width: 600px;
-            margin: 2rem auto;
-            background-color: #f5f5f5;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .info {
-            margin-top: 1rem;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f2f2f2; /* Clean, neutral background */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #2c3e50;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .logo {
+            height: 36px;
+        }
+
+        .container {
+            background-color: #fbfbfb; /* Soft card color */
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+            margin: 2rem auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info p {
             font-size: 1.2rem;
+            margin: 1rem 0;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            color: #444; /* Darker text */
+        }
+
+        .info strong {
+            color: #0066b2; /* Softer accent color */
+        }
+
+        .info span {
+            color: #444;
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 1rem;
+            background-color: #2c3e50;
+            color: #fff;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        footer p {
+            font-size: 0.9rem;
         }
 	</style>
 </head>
 <body>
-<div class="info">
-	<p><strong>VM Hostname:</strong> <span th:text="${vmHostname}">Unknown</span></p>
-	<p><strong>Commit Hash:</strong> <span th:text="${commitHash}">Unknown</span></p>
+
+<header>
+	<img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" alt="Dashboard Logo">
+</header>
+
+<div class="container">
+	<div class="info">
+		<p><strong>VM Hostname:</strong> <span th:text="${vmHostname}">Unknown</span></p>
+		<p><strong>Commit Hash:</strong> <span th:text="${commitHash}">Unknown</span></p>
+	</div>
 </div>
+
+<!-- Footer -->
+<footer>
+	<p>&copy; 2025 | All rights reserved.</p>
+</footer>
 </body>
 </html>
