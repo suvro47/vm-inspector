@@ -12,17 +12,31 @@ alerting:
       api_version: v1
 
 scrape_configs:
-  - job_name: vm_1
+  # Spring Boot App Metrics
+  - job_name: vm_1_app
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: ['192.168.123.10:8080']
 
-  - job_name: vm_2
+  - job_name: vm_2_app
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: ['192.168.123.11:8080']
 
-  - job_name: vm_3
+  - job_name: vm_3_app
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: ['192.168.123.12:8080']
+
+  # Node Exporter Metrics
+  - job_name: vm_1_node
+    static_configs:
+      - targets: ['192.168.123.10:9100']
+
+  - job_name: vm_2_node
+    static_configs:
+      - targets: ['192.168.123.11:9100']
+
+  - job_name: vm_3_node
+    static_configs:
+      - targets: ['192.168.123.12:9100']
