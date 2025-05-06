@@ -27,6 +27,7 @@ services:
 
 volumes:
   grafana-storage: {}
+  prometheus-data: {}
 
 networks:
   monitoring:
